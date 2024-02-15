@@ -1,0 +1,36 @@
+*{
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    /* overflow: hidden; */
+    text-decoration: none;
+    color: whitesmoke;
+}
+.main{
+    background-color: black;
+    /* height: 100vh; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* background-image: url("https://64.media.tumblr.com/4b3b0287ca43ce1021340cd692f65f9f/tumblr_mj7iufgKNi1qghl49o1_500.gifv"); */
+    background-size: repeat;
+}
+.box{
+    color: whitesmoke;
+    height: fit-content;
+    min-width: 99%;
+    padding: .5rem;
+    margin: .5rem;
+    background-color: #121212;
+    border-radius: .5rem;
+    box-shadow: 0px 0px 5px white;
+    border: none;
+}
+.box h1{
+    margin: .5rem;
+    font-size: 3rem;
+    text-align: center;
+    text-shadow: 1px 1px 4px white;
+}
+.white{
+    color: whitesmoke;
+}
