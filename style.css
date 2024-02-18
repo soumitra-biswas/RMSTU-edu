@@ -19,7 +19,7 @@
     height: fit-content;
     min-width: 99%;
     padding: .5rem;
-    margin: .5rem;
+    margin: .5rem .8rem;
     background-color: #121212;
     border-radius: .5rem;
     box-shadow: 0px 0px 5px white;
@@ -40,10 +40,13 @@
     align-items: center;
 }
 .banner .logo img{
+    z-index: -5;
     height: 20rem;
+    filter: drop-shadow(0 0 0.1rem white);
+    
 }
 .socialink{
-    width: 20%;
+    width: 30%;
 }
 .socialink ul li a{
     margin: .2rem;
@@ -62,16 +65,21 @@
     list-style-type: none;
 }
 .socialink ul li{
+    background-color: #242424;
+    border-radius: .5rem .5rem 0rem 0rem;
     opacity: .7;
     width: 100%;
+    margin: .2rem;
+    padding: .2rem;
 }
 .socialink ul li:hover{
     border-radius: .5rem;
     opacity: 1;
     background-color: #090909;
+    transform: scale(1.01);
 }
 .boardcontainer{
-    width: 33%;
+    width: 30%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -99,5 +107,39 @@
     opacity: .7;
 }
 .boardbody{
-    padding: .1rem .5rem;
+    margin-top: .5rem;
+    margin-bottom: -.3rem;
+    padding: .2rem .5rem;
 }
+.glow:hover {
+    font-size: 80px;
+    color: #fff;
+    text-align: center;
+    -webkit-animation: glow 1s ease-in-out infinite alternate;
+    -moz-animation: glow 1s ease-in-out infinite alternate;
+    animation: glow 1s ease-in-out infinite alternate;
+  }
+  
+  @-webkit-keyframes glow {
+    from {
+        filter: drop-shadow( 0 0 10px #fff) drop-shadow( 0 0 20px #fff) drop-shadow( 0 0 30px #e60073) drop-shadow( 0 0 40px #e60073) drop-shadow(0 0 50px #e60073) drop-shadow( 0 0 60px #e60073) drop-shadow( 0 0 70px #e60073);
+    }
+    to {
+        filter: drop-shadow( 0 0 20px #fff) drop-shadow(0 0 30px #ff4da6) drop-shadow( 0 0 40px #ff4da6) drop-shadow( 0 0 50px #ff4da6) drop-shadow( 0 0 60px #ff4da6) drop-shadow( 0 0 70px #ff4da6) drop-shadow( 0 0 80px #ff4da6);
+    }
+  }
+  .about{
+    display: flex;
+    align-items: center;
+  }
+  .box-carousel, .box-content{
+    margin: .3rem;
+    padding: .5rem;
+    background-color: #121212;
+    border-radius: .5rem;
+    width: 50%;
+  }
+  .carousel-item img{
+    border-radius: .5rem;
+    height: 20rem;
+  }
