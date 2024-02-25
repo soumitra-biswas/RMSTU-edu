@@ -174,3 +174,47 @@
     max-height: 20rem;
     overflow: hidden;
   }
+  @media(max-width: 576px){
+    .main{
+      width: 105%;
+      padding-right: 1.5rem;
+      margin-left: -.2rem;
+      margin-right: 1rem;
+      /* margin: 1rem; */
+    }
+    .banner{
+      flex-direction: column;
+    }
+    .socialink{
+      margin: 2rem auto;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+    }
+    .socialink li{
+      display: inline;
+      margin: 0;
+      padding: 0;
+    }
+    .socialink ul li a{
+      margin: 0;
+      padding: 0;
+    }
+    .socialink ul li i{
+      border-radius: 50%;
+      transform: scale(2);
+      margin: .5rem .5rem;
+      padding: .3rem;
+    }
+    .hide{
+      display: none;
+    }
+    .socialink ul li{
+      background-color: inherit;
+    }
+    .socialink ul li:hover{
+        background-color: inherit;
+    }
+  }
