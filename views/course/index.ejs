@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>course</title>
+</head>
+<body>
+    <h1>all courses</h1>
+    <a href="/course/new">create a new course</a>
+
+    
+    <form action="/course?tab=faculty" method="POST">
+        <input type="text" placeholder="faculty name" name="faculty[facultyName]">
+        <input type="text" placeholder="faculty code" name="faculty[facultyCode]">
+        <button type="submit">Submit</button>
+    </form>
+    <form action="/course?tab=department" method="POST">
+        <input type="text" placeholder="department name" name="department[departmentName]">
+        <input type="text" placeholder="department code" name="department[departmentCode]">
+        <button type="submit">Submit</button>
+    </form>
+    <form action="/course?tab=degree" method="POST">
+        <input type="text" placeholder="degree name" name="degree[degreeName]">
+        <input type="text" placeholder="degree code" name="degree[degreeCode]">
+        <button type="submit">Submit</button>
+    </form>
+    <form action="/course?tab=course" method="POST">
+        <input type="text" placeholder="course name" name="course[courseName]">
+        <input type="text" placeholder="course code" name="course[courseCode]">
+        <button type="submit">Submit</button>
+    </form>
+
+    <br><br><br>
+
+    <% if(departments.length>0){ %>
+        <br><br>All departments: 
+        <% for(let department of departments){ %>
+            <div><%= department.departmentName %></div>
+        <% } %>
+    <% } %>
+    <% if(faculties.length>0){ %>
+        <br><br>All faculties: 
+        <% for(let faculty of faculties){ %>
+            <div><%= faculty.facultyName%></div>
+        <% } %>
+    <% } %>
+    <% if(degrees.length>0){ %>
+        <br><br>All degrees: 
+        <% for(let degree of degrees){ %>
+            <div><%= degree.degreeName%></div>
+        <% } %>
+    <% } %>
+    <% if(courses.length>0){ %>
+        <br><br>All Courses: 
+        <% for(let course of courses){ %>
+            <div><%= course.courseName %></div>
+        <% } %>
+    <% } %>
+</body>
+</html>

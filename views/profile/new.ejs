@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>create</title>
+</head>
+<body>
+    <h1>Create a new profile</h1>
+    <form id="profileForm" action="/profile" method="POST">
+        <div>
+            <label for="role">Select Role:</label>
+            <select id="role" name="profile[role]" required>
+              <option value="">Select a role</option>
+              <option value="student">Student</option>
+              <option value="faculty">Faculty</option>
+            </select>
+        </div>
+        <div id="commonFields">
+            <div>
+                <label for="name">name</label>
+                <input id="name" name="profile[name]" type="text">
+            </div>
+            <div>
+                <label for="dateOfBirth">dateOfBirth</label>
+                <input id="dateOfBirth" name="profile[dateOfBirth]" type="date">
+            </div>
+            <div>
+                <label for="email">email</label>
+                <input id="email" name="profile[email]" type="email">
+            </div>
+            <div>
+                <label for="phoneNumber">phoneNumber</label>
+                <input id="phoneNumber" name="profile[phoneNumber]" type="number">
+            </div>
+            <div>
+                <label for="facultyName">Faculty Name</label>
+                <input type="text" id="facultyName" name="profile[facultyName]">   
+            </div>
+            <div>
+                <label for="departmentName">Department Name </label>
+                <input type="text" id="departmentName" name="profile[departmentName]">
+            </div>
+        </div>
+        <div id="studentFields" style="display: none;">
+            
+            <label for="registrationNo">Registration No:</label>
+            <input type="number" id="registrationNo" name="profile[registrationNo]">
+
+            <label for="rollNo">Roll No:</label>
+            <input type="number" id="rollNo" name="profile[rollNo]">
+            
+            <label for="session">Session Year:</label>
+            <input type="number" id="session" name="profile[session]">
+
+
+        </div>
+
+        <div id="facultyFields" style="display: none;">
+            <label for="designation">Designation</label>
+            <input type="text" id="designation" name="profile[designation]">
+            
+            <label for="joinDate">Joining Date:</label>
+            <input type="date" id="joinDate" name="profile[joinDate]">
+            
+            <label for="bachelorInfo">Bachelor Info:</label>
+            <input type="text" id="bachelorInfo" name="profile[bachelorInfo]">
+
+            <label for="mastersInfo">Masters Info:</label>
+            <input type="text" id="mastersInfo" name="profile[mastersInfo]">
+        </div>
+      
+
+       <button type="submit" id="submit-btn" style="display: none;">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('role').addEventListener('change', function () {
+          var role = this.value;
+          var studentFields = document.getElementById('studentFields');
+          var facultyFields = document.getElementById('facultyFields');
+          var submitBtn =     document.getElementById('submit-btn');
+          if (role === 'student') {
+            studentFields.style.display = 'block';
+            facultyFields.style.display = 'none';
+            submitBtn.style.display = 'block';
+          } else if (role === 'faculty') {
+            studentFields.style.display = 'none';
+            facultyFields.style.display = 'block';
+            submitBtn.style.display = 'block';
+          } else {
+            studentFields.style.display = 'none';
+            facultyFields.style.display = 'none';
+            submitBtn.style.display = 'none';
+          }
+        });
+      </script>
+</body>
+</html>

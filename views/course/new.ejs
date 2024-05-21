@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>create</title>
+</head>
+<body>
+    <h1>Create a new profile</h1>
+    <form id="courseForm" action="/course" method="POST">
+        <div>
+            <!-- facultyName : String, -->
+            courseCode : String,
+            courseName : String,
+            courseSubject  :  [{
+                subjectName: String,
+                subjectCode: String,
+                subjectCredit: Number
+            }]
+        </div>
+        <div>
+            <label for="facultyName">Select faculty Name </label>
+            <select id="facultyName" name="course[facultyName]" required>
+              <option value="">Select a role</option>
+              <option value="EFX">Engineering Faculty</option>
+              <option value="BFX">Business Faculty</option>
+              <option value="SFX">Science Faculty</option>
+            </select>
+        </div>
+        <div id="commonFields">
+            <div>
+                <label for="courseCode">Course Code</label>
+                <input id="courseCode" name="course[courseCode]" type="text">
+            </div>
+            <div>
+                <label for="courseName">Course Name</label>
+                <input id="courseName" name="course[courseName]" type="text">
+            </div>
+            <div id="subjects">
+                <label for="courseSubject">Course Subject</label><br>
+                <button type="button" onclick="addSubject()" >Add Subject</button>
+                
+                
+                <div class="subject">
+                    <input id="courseSubject" name="course[courseSubject][0]['subjectName']" type="text" placeholder="Subject Name">
+                    <input id="courseSubject" name="course[courseSubject][0]['subjectCode']" type="text" placeholder="Subject Code">
+                    <input id="courseSubject" name="course[courseSubject][0]['subjectCredit']" type="text" placeholder="Subject Credit"><br>
+                </div>
+                
+            </div>
+        </div>
+       
+       <button type="submit" id="submit-btn">Submit</button>
+    </form>
+<script>
+    let subjectCount = 1;
+    function addSubject() {
+      const subjectsDiv = document.getElementById('subjects');
+      const newSubjectDiv = document.createElement('div');
+      newSubjectDiv.className = 'subject';
+      newSubjectDiv.innerHTML = `
+     
+            <input id="courseSubject" name="course[courseSubject][ ${subjectCount}]['subjectName']" type="text" placeholder="Subject Name">
+            <input id="courseSubject" name="course[courseSubject][ ${subjectCount}]['subjectCode']" type="text" placeholder="Subject Code">
+            <input id="courseSubject" name="course[courseSubject][ ${subjectCount}]['subjectCredit']" type="text" placeholder="Subject Credit"><br>
+               
+      `;
+      subjectsDiv.appendChild(newSubjectDiv);
+      subjectCount++;
+    }
+</script>
+</body>
+</html>

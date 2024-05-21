@@ -1,0 +1,17 @@
+{
+  "name": "rmstu-edu",
+  "version": "1.0.0",
+  "description": "website\b\u001b[C for rangamati science & technology university",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mohammad minhazul abedin",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "ejs-mate": "^4.0.0",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.0"
+  }
+}
