@@ -32,17 +32,16 @@
     </form>
 
     <br><br><br>
-
-    <% if(departments.length>0){ %>
-        <br><br>All departments: 
-        <% for(let department of departments){ %>
-            <div><%= department.departmentName %></div>
-        <% } %>
-    <% } %>
     <% if(faculties.length>0){ %>
         <br><br>All faculties: 
         <% for(let faculty of faculties){ %>
             <div><%= faculty.facultyName%></div>
+        <% } %>
+    <% } %>
+    <% if(departments.length>0){ %>
+        <br><br>All departments: 
+        <% for(let department of departments){ %>
+            <div><%= department.departmentName %></div>
         <% } %>
     <% } %>
     <% if(degrees.length>0){ %>

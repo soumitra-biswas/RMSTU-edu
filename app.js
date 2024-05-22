@@ -139,6 +139,32 @@ app.get("/course/new", (req, res)=>{
     res.render("course/new.ejs");
 })
 // END OF COURSES
+app.get("/result",async (req, res)=>{
+    let results = await Result.find();
+    res.render("result/index.ejs",{results});
+})
+app.get("/result/new", (req, res)=>{
+    res.render("result/new.ejs");
+})
+const resultSchema = new mongoose.Schema({
+    registrationNo: Number,
+    marks: [{
+        courseName: String,
+        courseCode: String,
+        courseCredit: Number,
+        attainedMarks: Number,
+        attainedGpa: Number
+    }]
+})
+const Result = mongoose.model("Result", resultSchema);
+
+app.post("/result", async (req, res)=>{
+    let {result} = req.body;
+    let newResult = new Result(result);
+    await newResult.save();
+    res.redirect("/result");
+})
+
 
 app.listen(PORT, (req,res)=>{
     console.log(`app listening on ${PORT}`);

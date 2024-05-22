@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+    <style>
+        td {
+            border: 1px solid black;
+            padding: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h2 href="/result/new">Generate Result</h2>
+    <h2>Result</h2>
+    <% if(results.length>0){ %>
+        <% for(result of results){ %>
+            <h4><%= result.registrationNo %></h4>
+            <table>
+                <% for(mark of result.marks){ %>
+                        <tr>
+                            <td><%= mark.courseName %></td>
+                            <td><%= mark.courseCode %></td>
+                            <td><%= mark.courseCredit %></td>
+                            <td><%= mark.attainedMarks %></td>
+                            <td><%= mark.attainedGpa %></td>
+                        </tr>
+                <%  } %>
+            </table>
+        <% } %>
+    <% } %>
+</body>
+</html>
