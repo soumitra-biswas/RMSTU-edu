@@ -5,6 +5,7 @@ const app = express();
 const ejs = require("ejs");
 const ejsMate = require("ejs-mate");
 const mongoose = require("mongoose");
+const {Profile,Faculty,Department,Degree,Course,Major,Classroom,Result} = require("./models/models.js")
 
 app.set("view engine","ejs");
 app.engine("ejs",ejsMate);
@@ -23,39 +24,11 @@ app.get("/", (req, res)=>{
     res.sendFile("index.html");
 })
 
-const profileSchema = new mongoose.Schema({
-    role: {
-        type: String,
-        enum: ["student","faculty"]
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    dateOfBirth: {
-        type: Date
-    },
-    email: String,
-    phoneNumber: String,
-    address: String,
-    impactScore: {
-        type: Number,
-        default: 0
-    },
-    mastersInfo: String,
-    bachelorInfo: String,
-    joinDate: String,
-    designation: String,
-    session: String,
-    rollNo: Number,
-    registrationNo: Number
-})
-
-const Profile = mongoose.model("Profile", profileSchema);
 
 app.get("/profile", async (req, res)=>{
-    let profiles = await Profile.find();
-    res.render("profile/index.ejs", {profiles});
+    let students = await Profile.find({role:"student"});
+    let faculties = await Profile.find({role:"faculty"});
+    res.render("profile/index.ejs", {students,faculties});
 })
 app.post("/profile", async (req, res)=>{
     try {
@@ -74,29 +47,17 @@ app.get("/profile/new", (req, res)=>{
     res.render("profile/new.ejs");
 })
 
-const facultySchema = new mongoose.Schema({
-    facultyName : String,
-    facultyCode : String
-})
-const Faculty = mongoose.model("Faculty", facultySchema);
 
-const departmentSchema = new mongoose.Schema({
-    departmentName : String,
-    departmentCode : String
+app.get("/profile/:id", async (req, res)=>{
+  try{
+    let {id} = req.params;
+    let profile = await Profile.findById(id);
+    res.render("profile/show.ejs",{profile});
+  }catch(error){
+    console.log(error);
+    res.redirect("profile");
+  }
 })
-const Department = mongoose.model("Department", departmentSchema);
-
-const degreeSchema = new mongoose.Schema({
-    degreeName : String,
-    degreeCode : String
-})
-const Degree = mongoose.model("Degree", degreeSchema);
-
-const courseSchema = new mongoose.Schema({
-    courseName : String,
-    courseCode : String
-})
-const Course = mongoose.model("Course", courseSchema);
 
 app.get("/course", async (req, res)=>{
     let departments = await Department.find();
@@ -145,19 +106,7 @@ app.get("/result",async (req, res)=>{
 })
 app.get("/result/new", (req, res)=>{
     res.render("result/new.ejs");
-})
-const resultSchema = new mongoose.Schema({
-    registrationNo: Number,
-    marks: [{
-        courseName: String,
-        courseCode: String,
-        courseCredit: Number,
-        attainedMarks: Number,
-        attainedGpa: Number
-    }]
-})
-const Result = mongoose.model("Result", resultSchema);
-
+});
 app.post("/result", async (req, res)=>{
     let {result} = req.body;
     let newResult = new Result(result);
@@ -165,7 +114,73 @@ app.post("/result", async (req, res)=>{
     res.redirect("/result");
 })
 
+app.get("/academic", async(req, res)=>{
+    
+    let departments = await Department.find();
+    let faculties = await Faculty.find();
+    let degrees = await Degree.find();
+    let courses = await Course.find();
+    let majors = await Major.find();
+    let classrooms = await Classroom.find();
+    res.render("academic/index.ejs", {departments, faculties, degrees, courses, majors, classrooms});
+})
+app.post("/academic", async(req, res)=>{
+    const { department, major, className, classCode } = req.body;
+    console.log(req.body);
 
+    try {
+      // Find or create department
+      let departmentDoc = await Department.findOne({ departmentName: department });
+      if (!departmentDoc) {
+        departmentDoc = new Department({ departmentName: department, departmentCode: department });
+        await departmentDoc.save();
+      }
+  
+      // Find or create major
+      let majorDoc = await Major.findOne({ majorName: major });
+      if (!majorDoc) {
+        majorDoc = new Major({ majorName: major, majorCode: major, majorDepartment: departmentDoc._id });
+        await majorDoc.save();
+      }
+  
+      // Create the class
+      const newClassroom = new Classroom({ className: className, classCode: classCode, classMajor: majorDoc._id });
+      await newClassroom.save();
+  
+    //   res.status(201).json({ message: 'Classroom created successfully!' });
+      res.redirect("/academic");
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+})
+app.get("/academic/c/:id", async(req, res)=>{
+    let {id} = req.params;
+    let classroom = await Classroom.findById(id);
+    res.render("academic/classroom.ejs",{classroom});
+})
+app.post("/academic/c/:id", async(req, res)=>{
+    try {
+        let {id} = req.params;
+        let {registrationNo} = req.body;
+        let student = await Profile.findOne({registrationNo});
+        console.log(student);
+        if(!student){
+            console.log("profile doesn't exists");
+            let student = new Profile({
+                role: "Student",
+                name: "Name required",
+                registrationNo: registrationNo
+            })
+            await student.save();
+        }
+        let classroom =  await Classroom.findById(id);
+        classroom.classStudents.push(student);
+        await classroom.save();
+        res.redirect(`/academic/c/${id}`);
+    } catch (error) {
+        console.log(error);   
+    }
+})
 app.listen(PORT, (req,res)=>{
     console.log(`app listening on ${PORT}`);
 })

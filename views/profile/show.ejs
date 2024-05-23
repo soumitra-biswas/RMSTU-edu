@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= profile.name %></title>
+</head>
+<body>
+
+    <p>
+        <b>Name :   </b> <i>   <%= profile.name %></i>
+    </p>
+    <p>
+        <b>Date Of Birth :   </b> <i>   <%= profile.dateOfBirth %></i>
+    </p>
+    <p>
+        <b>Phone Number :   </b> <i>   <%= profile.phoneNumber %></i>
+    </p>
+    <p>
+        <b>Email :   </b> <i>   <%= profile.email %></i>
+    </p>
+    <p>
+        <b>Impact Score :   </b> <i>   <%= profile.impactScore %></i>
+    </p>
+    
+    
+    
+    <% if(profile.role =="student"){ %>
+
+        <p>
+            <b>Session:   </b> <i>   <%= profile.session %></i>
+        </p>
+        <p>
+            <b>Registration No:   </b> <i>   <%= profile.registrationNo %></i>
+        </p>
+        <p> 
+            <b>Roll No:   </b> <i>  <%= profile.rollNo %></i>
+        </p>
+        
+
+    <% }else{ %>
+        <p> 
+            <b>Masters Info :   </b> <i>  <%= profile.mastersInfo %></i>
+        </p>
+        <p> 
+            <b>Bachelor Info :   </b> <i>  <%= profile.bachelorInfo %></i>
+        </p>
+        <p> 
+            <b>Join Date :   </b> <i>  <%= profile.joinDate %></i>
+        </p>
+        <p> 
+            <b>Designation :   </b> <i>  <%= profile.designation %></i>
+        </p>
+        
+    <% } %>
+
+
+</body>
+</html>

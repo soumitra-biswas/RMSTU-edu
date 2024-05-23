@@ -1,0 +1,186 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>University Class Creation</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <h1>Create Class</h1>
+  <form id="classForm">
+    <!-- Department Section -->
+    <div>
+      <label for="department">Department:</label>
+      <select id="department" name="department" required>
+        <option value="">Select a department</option>
+        <% if(departments.length>0){ %>
+            <% for(let department of departments){ %>
+                <div></div>
+                <option value="<%= department.departmentName %>"><%= department.departmentName %></option>
+            <% } %>
+        <% } %>
+      </select>
+      <button type="button" onclick="addDepartment()">Add Department</button>
+    </div>
+    <div id="departmentFields" style="display:none;">
+      <input type="text" id="departmentName" placeholder="Department Name">
+      <input type="text" id="departmentCode" placeholder="Department Code">
+      <button type="button" onclick="saveDepartment()">Save Department</button>
+    </div>
+
+    <!-- Major Section -->
+    <div>
+      <label for="major">Major:</label>
+      <select id="major" name="major" required>
+        <option value="">Select a major</option>
+        <% if(majors.length>0){ %>
+            <% for(let major of majors){ %>
+                <div></div>
+                <option value="<%= major.majorName %>"><%= major.majorName %></option>
+            <% } %>
+        <% } %>
+      </select>
+      <button type="button" onclick="addMajor()">Add Major</button>
+    </div>
+    <div id="majorFields" style="display:none;">
+      <input type="text" id="majorName" placeholder="Major Name">
+      <input type="text" id="majorCode" placeholder="Major Code">
+      <button type="button" onclick="saveMajor()">Save Major</button>
+    </div>
+
+    <!-- Class Section -->
+    <div>
+      <label for="className">Class Name:</label>
+      <input type="text" id="className" name="className" required>
+    </div>
+    <div>
+      <label for="classCode">Class Code:</label>
+      <input type="text" id="classCode" name="classCode" required>
+    </div>
+    <button type="submit">Create Class</button>
+  </form>
+
+
+  <div>
+
+    
+    <br><br><br>
+    <% if(faculties.length>0){ %>
+        <br><br>All faculties: 
+        <% for(let faculty of faculties){ %>
+            <div><%= faculty.facultyName%></div>
+        <% } %>
+    <% } %>
+    <% if(departments.length>0){ %>
+        <br><br>All departments: 
+        <% for(let department of departments){ %>
+            <div><%= department.departmentName %></div>
+        <% } %>
+    <% } %>
+    <% if(degrees.length>0){ %>
+        <br><br>All degrees: 
+        <% for(let degree of degrees){ %>
+            <div><%= degree.degreeName%></div>
+        <% } %>
+    <% } %>
+    <% if(courses.length>0){ %>
+        <br><br>All Courses: 
+        <% for(let course of courses){ %>
+            <div><%= course.courseName %></div>
+        <% } %>
+    <% } %>
+    <% if(majors.length>0){ %>
+        <br><br>All Majors: 
+        <% for(let major of majors){ %>
+            <div><%= major.majorName %></div>
+        <% } %>
+    <% } %>
+    <% if(classrooms.length>0){ %>
+        <br><br>All Classes: 
+        <% for(let cls of classrooms){ %>
+            <div><%= cls.className %></div><a href="/academic/c/<%= cls._id%>">view classroom</a>
+        <% } %>
+    <% } %>
+
+
+  </div>
+  <script>
+    // Function to add a new department
+    function addDepartment() {
+      document.getElementById('departmentFields').style.display = 'block';
+    }
+
+    // Function to save a new department
+    function saveDepartment() {
+      const name = document.getElementById('departmentName').value;
+      const code = document.getElementById('departmentCode').value;
+      if (name && code) {
+        // Add the new department to the department dropdown
+        const departmentSelect = document.getElementById('department');
+        const option = document.createElement('option');
+        option.value = code;
+        option.text = name;
+        departmentSelect.add(option);
+        document.getElementById('departmentFields').style.display = 'none';
+      }
+    }
+
+    // Function to add a new major
+    function addMajor() {
+      document.getElementById('majorFields').style.display = 'block';
+    }
+
+    // Function to save a new major
+    function saveMajor() {
+      const name = document.getElementById('majorName').value;
+      const code = document.getElementById('majorCode').value;
+      if (name && code) {
+        // Add the new major to the major dropdown
+        const majorSelect = document.getElementById('major');
+        const option = document.createElement('option');
+        option.value = code;
+        option.text = name;
+        majorSelect.add(option);
+        document.getElementById('majorFields').style.display = 'none';
+      }
+    }
+
+    // Handle form submission
+    document.getElementById('classForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const department = document.getElementById('department').value;
+      const major = document.getElementById('major').value;
+      const className = document.getElementById('className').value;
+      const classCode = document.getElementById('classCode').value;
+
+      const data = {
+        department,
+        major,
+        className,
+        classCode
+      };
+
+      fetch('/academic', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('Class created successfully!');
+        // Reset the form
+        document.getElementById('classForm').reset();
+        location.reload();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    });
+  </script>
+</body>
+</html>
