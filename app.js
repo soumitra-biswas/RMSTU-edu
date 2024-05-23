@@ -147,8 +147,9 @@ app.post("/academic", async(req, res)=>{
       const newClassroom = new Classroom({ className: className, classCode: classCode, classMajor: majorDoc._id });
       await newClassroom.save();
   
-    //   res.status(201).json({ message: 'Classroom created successfully!' });
-      res.redirect("/academic");
+      res.status(201).json({ message: 'Classroom created successfully!' });
+    //   res.redirect("/academic");
+
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
