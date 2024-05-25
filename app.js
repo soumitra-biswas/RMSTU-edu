@@ -156,27 +156,35 @@ app.post("/academic", async(req, res)=>{
 })
 app.get("/academic/c/:id", async(req, res)=>{
     let {id} = req.params;
-    let classroom = await Classroom.findById(id);
+    let classroom = await Classroom.findById(id)
+    .populate("classMajor")
+    .populate({
+        path: "classStudents"
+    });
+    console.log(classroom);
     res.render("academic/classroom.ejs",{classroom});
 })
 app.post("/academic/c/:id", async(req, res)=>{
     try {
         let {id} = req.params;
         let {registrationNo} = req.body;
+        console.log(registrationNo);
         let student = await Profile.findOne({registrationNo});
         console.log(student);
         if(!student){
             console.log("profile doesn't exists");
-            let student = new Profile({
-                role: "Student",
+            student = new Profile({
+                role: "student",
                 name: "Name required",
                 registrationNo: registrationNo
-            })
-            await student.save();
+            });
+            let response = await student.save();
+            console.log(response);
         }
         let classroom =  await Classroom.findById(id);
         classroom.classStudents.push(student);
         await classroom.save();
+        console.log(classroom);
         res.redirect(`/academic/c/${id}`);
     } catch (error) {
         console.log(error);   
