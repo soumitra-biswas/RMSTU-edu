@@ -50,21 +50,31 @@
 </head>
 <body>
     <h1>Name of classroom <%=classroom.className%></h1>
-    <%  if(classroom.classStudents.length>0){ %>
-        <table>
-            <% for(student of classroom.classStudents){ %>
-                <tr>
-                    <td>
-                       <%= student._id %>
-                    </td>
-                </tr>
-            <% } %>
-        </table>
-    <% } %>
+
     Add Student to the class:
     <form method="POST" action="/academic/c/<%= classroom._id%>">
         <input type="text" name="registrationNo" placeholder="Registration No">
         <button type="submit">Add to class</button>
     </form>
+
+
+    <%  if(classroom.classStudents.length>0){ %>
+        <table>
+            <% for(student of classroom.classStudents){ %>
+                <tr>
+                    <td>
+                       <%= student.id %>
+                    </td>
+                    <td>
+                        <%= student.name %>
+                    </td>
+                    <td>
+                        <%= student.registrationNo %>
+                    </td>
+                </tr>
+            <% } %>
+        </table>
+    <% } %>
+    
 </body>
 </html>
