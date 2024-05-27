@@ -1,0 +1,107 @@
+###
+POST http://localhost:3000 HTTP/1.1
+content-type: application/json
+
+{
+  "year": 1,
+  "sections": [
+    {
+      "sectionName": "1st Year 1st Semester",
+      "courses": [
+        {
+          "courseName": "Computer Fundamentals Lab",
+          "courseCode": "CSE 1101",
+          "courseCredit": 1.5
+        },
+        {
+          "courseName": "Structured Programming Language",
+          "courseCode": "CSE 1102",
+          "courseCredit": 3
+        },
+        {
+          "courseName": "Structured Programming Language Lab",
+          "courseCode": "CSE 1103",
+          "courseCredit": 1.5
+        },
+        {
+          "courseName": "Basic Electrical Engineering",
+          "courseCode": "EEE 1104",
+          "courseCredit": 3
+        },
+        {
+          "courseName": "Basic Electrical Engineering Lab",
+          "courseCode": "EEE 1105",
+          "courseCredit": 1.5
+        },
+        {
+          "courseName": "Calculus",
+          "courseCode": "MATH 1106",
+          "courseCredit": 3
+        },
+        {
+          "courseName": "Physics",
+          "courseCode": "PHY 1107",
+          "courseCredit": 3
+        },
+        {
+          "courseName": "Physics Lab",
+          "courseCode": "PHY 1108",
+          "courseCredit": 1.5
+        },
+        {
+          "courseName": "English",
+          "courseCode": "ENG 1109",
+          "courseCredit": 1.5
+        }
+      ]
+    },
+    {
+      "sectionName": "1st Year 2nd Semester",
+      "courses": [
+         {
+          "courseName": "Discrete Mathematics",
+          "courseCode": "CSE 1201",
+          "courseCredit": 3
+        },
+        {
+          "courseName": "Object Oriented Programming Language",
+          "courseCode": "CSE 1202",
+          "courseCredit": 3
+        },
+        {
+          "courseName": "Object Oriented Programming Language Lab",
+          "courseCode": "CSE 1203",
+          "courseCredit": 1.5
+        },
+        {
+          "courseName": "Digital Logic Design",
+          "courseCode": "CSE1204",
+          "courseCredit": 3
+        },
+        {
+          "courseName": "Digital Logic Design Lab",
+          "courseCode": "CSE 1205",
+          "courseCredit": 1.5
+        },
+        {
+          "courseName": "Matrices, Differential Equation and Geometry",
+          "courseCode": "Math 1206",
+          "courseCredit": 4
+        },
+        {
+          "courseName": "Chemistry",
+          "courseCode": "Chem 1207",
+          "courseCredit": 3
+        },
+        {
+          "courseName": "English Skill Development Lab",
+          "courseCode": "Eng 1208",
+          "courseCredit": 1.5
+        }
+      ]
+    }
+  ]
+}
+
+###
+GET http://localhost:3000 
