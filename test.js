@@ -15,6 +15,7 @@ async function main() {
   await mongoose.connect(MONGO_URL);
 }
 
+////////////////////////////////////////////////////////////////
 
 const courseSchema = new mongoose.Schema({
   courseName: { type: String, required: true },
@@ -34,7 +35,6 @@ const curriculumSchema = new mongoose.Schema({
 
 const Curriculum = mongoose.model('Curriculum', curriculumSchema);
 
-////////////////////////////////////////////////////////////////
 
 app.post('/', async (req, res) => {
     const { year, sections } = req.body;
@@ -58,6 +58,34 @@ app.get("/", async (req, res)=>{
 })
 
 
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+
+const acquiredCourseSchema = new mongoose.Schema({
+  course: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Curriculum',
+    required: true,
+  },
+  marks: { type: Number, required: true },
+  gpa: { type: Number, required: true },
+});
+
+const studentRecordSchema = new mongoose.Schema({
+  student: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Student',
+    required: true,
+  },
+  acquiredCourses: [acquiredCourseSchema],
+});
+
+const StudendRecord =  mongoose.model('StudentRecord', studentRecordSchema);
+
+
+
+/////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 
 app.listen(PORT, (req,res)=>{
