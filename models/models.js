@@ -31,7 +31,7 @@ module.exports.Profile = mongoose.model("Profile", profileSchema);
 
 const facultySchema = new mongoose.Schema({
     facultyName : String,
-    facultyCode : String
+    facultyCode : String,
 })
 module.exports.Faculty = mongoose.model("Faculty", facultySchema);
 
@@ -47,26 +47,24 @@ const degreeSchema = new mongoose.Schema({
 })
 module.exports.Degree = mongoose.model("Degree", degreeSchema);
 
+const majorSchema = new mongoose.Schema({
+    majorName: { type: String, required: true },
+    majorCode: { type: String, required: true, unique: true },
+    majorDepartment: { type: mongoose.Schema.Types.ObjectId, ref: 'Department' }
+});
+module.exports.Major = mongoose.model('Major', majorSchema);
+
 const courseSchema = new mongoose.Schema({
     courseName : String,
     courseCode : String
 })
 module.exports.Course = mongoose.model("Course", courseSchema);
 
-
-const majorSchema = new mongoose.Schema({
-    majorName: { type: String, required: true },
-    majorCode: { type: String, required: true, unique: true },
-    majorDepartment: { type: mongoose.Schema.Types.ObjectId, ref: 'Department' }
-});
-
-module.exports.Major = mongoose.model('Major', majorSchema);
-
 const classroomSchema = new mongoose.Schema({
-    className: { type: String, required: true },
-    classCode: { type: String, required: true, unique: true },
-    classMajor: { type: mongoose.Schema.Types.ObjectId, ref: 'Major' },
-    classStudents: [{ 
+    classroomName: { type: String, required: true },
+    classroomCode: { type: String, required: true, unique: true },
+    classroomMajor: { type: mongoose.Schema.Types.ObjectId, ref: 'Major' },
+    classroomStudents: [{ 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Profile' 
     }]
