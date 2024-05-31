@@ -144,7 +144,7 @@ app.post("/academic", async(req, res)=>{
       }
   
       // Create the class
-      const newClassroom = new Classroom({ className: className, classCode: classCode, classMajor: majorDoc._id });
+      const newClassroom = new Classroom({ classroomName: className, classroomCode: classCode, classroomMajor: majorDoc._id });
       await newClassroom.save();
   
       res.status(201).json({ message: 'Classroom created successfully!' });
@@ -155,14 +155,20 @@ app.post("/academic", async(req, res)=>{
     }
 })
 app.get("/academic/c/:id", async(req, res)=>{
-    let {id} = req.params;
-    let classroom = await Classroom.findById(id)
-    .populate("classMajor")
-    .populate({
-        path: "classStudents"
-    });
-    console.log(classroom);
-    res.render("academic/classroom.ejs",{classroom});
+    try{
+
+        let {id} = req.params;
+        let classroom = await Classroom.findById(id)
+        .populate("classroomMajor")
+        .populate({
+            path: "classroomStudents",
+            model: "Profile"
+        });
+        // console.log(classroom);
+        res.render("academic/classroom.ejs",{classroom});
+    }catch(err){
+        console.log(err);
+    }
 })
 app.post("/academic/c/:id", async(req, res)=>{
     try {
@@ -170,7 +176,7 @@ app.post("/academic/c/:id", async(req, res)=>{
         let {registrationNo} = req.body;
         console.log(registrationNo);
         let student = await Profile.findOne({registrationNo});
-        console.log(student);
+        // console.log(student);
         if(!student){
             console.log("profile doesn't exists");
             student = new Profile({
@@ -182,7 +188,7 @@ app.post("/academic/c/:id", async(req, res)=>{
             console.log(response);
         }
         let classroom =  await Classroom.findById(id);
-        classroom.classStudents.push(student);
+        classroom.classroomStudents.push(student);
         await classroom.save();
         console.log(classroom);
         res.redirect(`/academic/c/${id}`);
