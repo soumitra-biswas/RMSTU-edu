@@ -4,56 +4,231 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= profile.name %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   
+    <style>
+        .form-label{
+            margin-top: .5rem;
+        }
+        .btn{
+            margin: .3rem;
+        }
+        .card{
+            font-size: 1.5rem;
+        }
+        .space{
+            min-height: 20vh;
+        }
+    </style>
 </head>
-<body>
+<body data-bs-theme="dark" style="width: 98%; ">
 
-    <p>
-        <b>Name :   </b> <i>   <%= profile.name %></i>
-    </p>
-    <p>
-        <b>Date Of Birth :   </b> <i>   <%= profile.dateOfBirth %></i>
-    </p>
-    <p>
-        <b>Phone Number :   </b> <i>   <%= profile.phoneNumber %></i>
-    </p>
-    <p>
-        <b>Email :   </b> <i>   <%= profile.email %></i>
-    </p>
-    <p>
-        <b>Impact Score :   </b> <i>   <%= profile.impactScore %></i>
-    </p>
+
+    <div class="row mt-3">
+        <div class="col-md-6 offset-3">
+
+            <div class="card">
+                <img src="/assets/profile/000.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h2 class="card-title mb-3 mt-2 text-center"><%= profile.name %></h2>
+                  
+
+                  <p class=" mt-2 card-text">
+
+                    <p>
+                        <b>Date Of Birth :   </b> <i>   <%= profile.dateOfBirth %></i>
+                    </p>
+                    <p>
+                        <b>Phone Number :   </b> <i>   <%= profile.phoneNumber %></i>
+                    </p>
+                    <p>
+                        <b>Email :   </b> <i>   <%= profile.email %></i>
+                    </p>
+                    <p>
+                        <b>Impact Score :   </b> <i>   <%= profile.impactScore %></i>
+                    </p>
+                    
+                    
+                    
+                    <% if(profile.role =="student"){ %>
+                
+                        <p>
+                            <b>Session:   </b> <i>   <%= profile.session %></i>
+                        </p>
+                        <p>
+                            <b>Registration No:   </b> <i>   <%= profile.registrationNo %></i>
+                        </p>
+                        <p> 
+                            <b>Roll No:   </b> <i>  <%= profile.rollNo %></i>
+                        </p>
+                        
+                        <a href="#" class="btn btn-primary w-100 disabled" >Get Individual Result</a>
+                        <a href="#" class="btn btn-primary w-100 disabled" >Print Marksheet Copy </a>
+                        <a href="#" class="btn btn-primary w-100 disabled" >Pay for Fees </a>
+                
+                    <% }else{ %>
+                        <p> 
+                            <b>Masters Info :   </b> <i>  <%= profile.mastersInfo %></i>
+                        </p>
+                        <p> 
+                            <b>Bachelor Info :   </b> <i>  <%= profile.bachelorInfo %></i>
+                        </p>
+                        <p> 
+                            <b>Join Date :   </b> <i>  <%= profile.joinDate %></i>
+                        </p>
+                        <p> 
+                            <b>Designation :   </b> <i>  <%= profile.designation %></i>
+                        </p>
+
+                        <a href="#" class="btn btn-primary w-100 disabled" >Choose Courses</a>
+                        <a href="#" class="btn btn-primary w-100 disabled" >Get Classes Schedule</a>
+                        
+                    <% } %>
+                
+                  </p>
+
+                    
+                <form id="deleteBtn" method="POST" action="/profile/<%= profile._id%>?_method=DELETE">
+                        <button class="btn btn-outline-danger w-100" type="submit">Delete Profile</button>
+                </form>
+
+
+                <button id="editBtn" class="btn btn-outline-warning w-100">Edit Profile</button>
+                </div>
+
+                
+
+                <div class="row" id="editForm" style="display: none;">
+                    <div class="col-md-10 offset-1">
+                        <form  method="POST" action="/profile/<%= profile._id%>?_method=PATCH">
+                            Edit Profile
+                            <div>
+                                <label  class="form-label" for="role">Select Role:</label>
+                                <select class="form-control"  id="role" name="profile[role]" required>
+                                <option  class="form-control"   value="">Select a role</option>
+                                <option  class="form-control"   value="student">Student</option>
+                                <option  class="form-control" "  value="faculty">Faculty</option>
+                                </select>
+                            </div>
+                    
+                            <div id="commonFields">
+                                <div>
+                                    <label class="form-label"  for="name">name</label>
+                                    <input class="form-control"  value="<%= profile.name %>"  id="name" name="profile[name]" type="text">
+                                </div>
+                                <div>
+                                    <label class="form-label"  for="dateOfBirth">dateOfBirth</label>
+                                    <input class="form-control"   value="<%= profile.dateOfBirth %>" id="dateOfBirth" name="profile[dateOfBirth]" type="date">
+                                </div>
+                                <div>
+                                    <label class="form-label"  for="email">email</label>
+                                    <input class="form-control"   value="<%= profile.email %>"   id="email" name="profile[email]" type="email">
+                                </div>
+                                <div>
+                                    <label class="form-label"  for="phoneNumber">phoneNumber</label>
+                                    <input class="form-control"    value="<%= profile.phoneNumber %>"  id="phoneNumber" name="profile[phoneNumber]" type="number">
+                                </div>
+                                <div>
+                                    <label class="form-label"  for="facultyName">Faculty Name</label>
+                                    <input class="form-control"   value="<%= profile.facultyName %>"   type="text" id="facultyName" name="profile[facultyName]">   
+                                </div>
+                                <div>
+                                    <label class="form-label"  for="departmentName">Department Name </label>
+                                    <input class="form-control"   value="<%= profile.departmentName %>"   type="text" id="departmentName" name="profile[departmentName]">
+                                </div>
+                            </div>
+                            <div id="studentFields" style="display: none;">
+                                
+                                <label class="form-label"  for="registrationNo">Registration No:</label>
+                                <input class="form-control"   value="<%= profile.registrationNo %>"   type="number" id="registrationNo" name="profile[registrationNo]">
+                    
+                                <label class="form-label"  for="rollNo">Roll No:</label>
+                                <input class="form-control"   value="<%= profile.rollNo %>"   type="number" id="rollNo" name="profile[rollNo]">
+                                
+                                <label class="form-label"  for="session">Session Year:</label>
+                                <input class="form-control"   value="<%= profile.session %>"   type="number" id="session" name="profile[session]">
+                    
+                    
+                            </div>
+                    
+                            <div id="facultyFields" style="display: none;">
+                                <label class="form-label"  for="designation">Designation</label>
+                                <input class="form-control"   value="<%= profile.designation %>"   type="text" id="designation" name="profile[designation]">
+                                
+                                <label class="form-label"  for="joinDate">Joining Date:</label>
+                                <input class="form-control"   value="<%= profile.joinDate %>"   type="date" id="joinDate" name="profile[joinDate]">
+                                
+                                <label class="form-label"  for="bachelorInfo">Bachelor Info:</label>
+                                <input class="form-control"   value="<%= profile.bachelorInfo %>"   type="text" id="bachelorInfo" name="profile[bachelorInfo]">
+                    
+                                <label class="form-label"  for="mastersInfo">Masters Info:</label>
+                                <input class="form-control"    value="<%= profile.mastersInfo %>"  type="text" id="mastersInfo" name="profile[mastersInfo]">
+                            </div>
+                    
+                            <button class="btn btn-outline-primary w-100 mt-2 mb-5"  type="submit">EDIT Profile detailes</button>
+                        </form>
+                    </div>
+                    
+                <div class="space"></div>
+                <div class="space"></div>
+                </div>
+
+            </div>
+
+
+           <div class="space"></div>
+           <div class="space"></div>
+
+        </div>
+    </div>
+
+
+
     
-    
-    
-    <% if(profile.role =="student"){ %>
 
-        <p>
-            <b>Session:   </b> <i>   <%= profile.session %></i>
-        </p>
-        <p>
-            <b>Registration No:   </b> <i>   <%= profile.registrationNo %></i>
-        </p>
-        <p> 
-            <b>Roll No:   </b> <i>  <%= profile.rollNo %></i>
-        </p>
-        
+    <script>
+         let state = false;
+         document.getElementById('editBtn').addEventListener('click', function () {
+            if(state){
+                document.getElementById('editForm').style.display = 'none';
+                state = false;
+            }else{
+                document.getElementById('editForm').style.display = 'block';
+                state = true;
+            }
+         })
 
-    <% }else{ %>
-        <p> 
-            <b>Masters Info :   </b> <i>  <%= profile.mastersInfo %></i>
-        </p>
-        <p> 
-            <b>Bachelor Info :   </b> <i>  <%= profile.bachelorInfo %></i>
-        </p>
-        <p> 
-            <b>Join Date :   </b> <i>  <%= profile.joinDate %></i>
-        </p>
-        <p> 
-            <b>Designation :   </b> <i>  <%= profile.designation %></i>
-        </p>
-        
-    <% } %>
+        document.getElementById('role').addEventListener('change', function () {
+          var role = this.value;
+          var studentFields = document.getElementById('studentFields');
+          var facultyFields = document.getElementById('facultyFields');
+          var submitBtn =     document.getElementById('submit-btn');
+          if (role === 'student') {
+            studentFields.style.display = 'block';
+            facultyFields.style.display = 'none';
+            submitBtn.style.display = 'block';
+          } else if (role === 'faculty') {
+            studentFields.style.display = 'none';
+            facultyFields.style.display = 'block';
+            submitBtn.style.display = 'block';
+          } else {
+            studentFields.style.display = 'none';
+            facultyFields.style.display = 'none';
+            submitBtn.style.display = 'none';
+          }
+        });
 
 
+        document.getElementById('deleteBtn').addEventListener('submit', function() {
+            event.preventDefault();
+            const confirmation = confirm('Are you sure you want to delete this record?');
+            if(confirmation) {
+                event.target.submit();
+            }
+
+        });
+      
+      </script>
 </body>
 </html>

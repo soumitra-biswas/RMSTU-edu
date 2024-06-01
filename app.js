@@ -6,12 +6,14 @@ const ejs = require("ejs");
 const ejsMate = require("ejs-mate");
 const mongoose = require("mongoose");
 const {Profile,Faculty,Department,Degree,Course,Major,Classroom,Result} = require("./models/models.js")
+const methodOverride = require("method-override");
 
 app.set("view engine","ejs");
 app.engine("ejs",ejsMate);
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(methodOverride("_method"));
 
 main()
     .then(res => console.log("Mongoose: Connection Successful: ", res))
@@ -57,6 +59,24 @@ app.get("/profile/:id", async (req, res)=>{
     console.log(error);
     res.redirect("profile");
   }
+})
+app.delete("/profile/:id", async (req, res)=>{
+    let {id} = req.params;
+    try{
+        await Profile.findByIdAndDelete(id);
+        res.redirect("/profile");
+    }catch(err){
+        console.log(err);
+    }
+})
+app.patch("/profile/:id", async (req, res)=>{
+    try{
+        let {id} = req.params;
+        let updatedProfile = await Profile.findByIdAndUpdate(id, req.body.profile);
+        res.redirect(`/profile/${id}`);
+    }catch(err){
+        console.log(err);
+    }
 })
 
 app.get("/course", async (req, res)=>{
