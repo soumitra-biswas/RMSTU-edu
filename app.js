@@ -142,35 +142,44 @@ app.get("/academic", async(req, res)=>{
     let courses = await Course.find();
     let majors = await Major.find();
     let classrooms = await Classroom.find();
+    // console.log({departments, faculties, degrees, courses, majors, classrooms});
     res.render("academic/index.ejs", {departments, faculties, degrees, courses, majors, classrooms});
 })
 app.post("/academic", async(req, res)=>{
-    const { department, major, className, classCode } = req.body;
+    const { department, major, classroomName, classroomCode } = req.body;
     console.log(req.body);
 
     try {
       // Find or create department
       let departmentDoc = await Department.findOne({ departmentName: department });
+      console.log("prev", departmentDoc);
       if (!departmentDoc) {
         departmentDoc = new Department({ departmentName: department, departmentCode: department });
         await departmentDoc.save();
+        console.log("new ",departmentDoc);
       }
   
       // Find or create major
       let majorDoc = await Major.findOne({ majorName: major });
+      console.log("prev", majorDoc);
       if (!majorDoc) {
         majorDoc = new Major({ majorName: major, majorCode: major, majorDepartment: departmentDoc._id });
         await majorDoc.save();
+        console.log("new ",majorDoc);
+
       }
   
       // Create the class
-      const newClassroom = new Classroom({ classroomName: className, classroomCode: classCode, classroomMajor: majorDoc._id });
+      let newClassroom = new Classroom({classroomName,classroomCode, classroomMajor: majorDoc._id });
+      console.log("prev",newClassroom);
       await newClassroom.save();
+      console.log(newClassroom);
   
       res.status(201).json({ message: 'Classroom created successfully!' });
     //   res.redirect("/academic");
 
     } catch (error) {
+      console.log(error);
       res.status(500).json({ error: error.message });
     }
 })
@@ -184,7 +193,7 @@ app.get("/academic/c/:id", async(req, res)=>{
             path: "classroomStudents",
             model: "Profile"
         });
-        // console.log(classroom);
+        console.log(classroom);
         res.render("academic/classroom.ejs",{classroom});
     }catch(err){
         console.log(err);

@@ -61,8 +61,8 @@ const courseSchema = new mongoose.Schema({
 module.exports.Course = mongoose.model("Course", courseSchema);
 
 const classroomSchema = new mongoose.Schema({
-    classroomName: { type: String, required: true },
-    classroomCode: { type: String, required: true, unique: true },
+    classroomName: { type: String },
+    classroomCode: { type: String },
     classroomMajor: { type: mongoose.Schema.Types.ObjectId, ref: 'Major' },
     classroomStudents: [{ 
         type: mongoose.Schema.Types.ObjectId, 
