@@ -28,9 +28,10 @@ app.get("/", (req, res)=>{
 
 
 app.get("/profile", async (req, res)=>{
+    let hallOfFame = await Profile.find().sort({ impactScore: -1 }).limit(15);
     let students = await Profile.find({role:"student"});
     let faculties = await Profile.find({role:"faculty"});
-    res.render("profile/index.ejs", {students,faculties});
+    res.render("profile/index.ejs", {students,faculties,hallOfFame});
 })
 app.post("/profile", async (req, res)=>{
     try {
@@ -202,24 +203,33 @@ app.get("/academic/c/:id", async(req, res)=>{
 app.post("/academic/c/:id", async(req, res)=>{
     try {
         let {id} = req.params;
-        let {registrationNo} = req.body;
-        console.log(registrationNo);
-        let student = await Profile.findOne({registrationNo});
-        // console.log(student);
-        if(!student){
-            console.log("profile doesn't exists");
-            student = new Profile({
-                role: "student",
-                name: "Name required",
-                registrationNo: registrationNo
-            });
-            let response = await student.save();
-            console.log(response);
-        }
+        let {registrationNo, registrationRange: registrationRange  = 1 } = req.body;
         let classroom =  await Classroom.findById(id);
-        classroom.classroomStudents.push(student);
+        console.log(req.body);
+        registrationNo = parseInt(registrationNo);
+        registrationRange = parseInt(registrationRange);
+        console.log(registrationNo, registrationRange);
+        for(let i=0; i< registrationRange; i++){
+            registrationNo += i;
+            let student = await Profile.findOne({registrationNo});
+            if(!student){
+                console.log("profile doesn't exists");
+                student = new Profile({
+                    role: "student",
+                    name: "Name required",
+                    registrationNo: registrationNo
+                });
+                let response = await student.save();
+                // console.log(response);
+            }
+            classroom.classroomStudents.push(student);
+        }
+        // console.log(registrationNo);
+        
+        // console.log(student);
+        
         await classroom.save();
-        console.log(classroom);
+        // console.log(classroom);
         res.redirect(`/academic/c/${id}`);
     } catch (error) {
         console.log(error);   
