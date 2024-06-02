@@ -6,79 +6,246 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>University Class Creation</title>
   <link rel="stylesheet" href="/styles.css">
+  <style>
+      body {
+        font-family: "Helvetica Neue", Helvetica, Arial;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 400;
+        color: #3b3b3b;
+        -webkit-font-smoothing: antialiased;
+        font-smoothing: antialiased;
+        background: #2b2b2b;
+      }
+      h1{
+        font-size: 3rem;
+        min-width: 30rem;
+      }
+      .tableGrid{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .singleTable{
+        min-width: 50%;
+      }
+      button:hover{
+        transform: scale(.995);
+        background-color: #155932;
+        box-shadow: 2px 2px 5px yellow;
+      }
+      @media screen and (max-width: 580px) {
+        body {
+          font-size: 16px;
+          line-height: 22px;
+        }
+      }
+
+      .wrapper {
+        margin: 0 auto;
+        padding: 40px;
+        max-width: 800px;
+      }
+
+      .table {
+        margin: 0 0 10px 0;
+        width: 100%;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        display: table;
+      }
+      .row label{
+        padding: .7rem;
+        padding-left: .7rem;
+        margin: .3rem;
+      }
+      @media screen and (max-width: 580px) {
+        .table {
+          display: block;
+        }
+      }
+
+      .row {
+        display: table-row;
+        background: #f6f6f6;
+      }
+      .row:nth-of-type(odd) {
+        background: #e9e9e9;
+      }
+      .cell{
+        font-size: 1.4rem;
+      }
+      .row.header {
+        margin-top: .2rem;
+        margin-bottom: .2rem;
+        font-size: 2rem;
+        font-weight: 900;
+        color: #ffffff;
+        background: #ea6153;
+      }
+      .row.green {
+        background: #27ae60;
+      }
+      .row.blue {
+        background: #2980b9;
+      }
+      @media screen and (max-width: 580px) {
+        .row {
+          padding: 14px 0 7px;
+          display: block;
+        }
+        .row.header {
+          padding: 0;
+          height: 6px;
+        }
+        .row.header .cell {
+          display: none;
+        }
+        .row .cell {
+          margin-bottom: 10px;
+        }
+        .row .cell:before {
+          margin-bottom: 3px;
+          content: attr(data-title);
+          min-width: 98px;
+          font-size: 10px;
+          line-height: 10px;
+          font-weight: bold;
+          text-transform: uppercase;
+          color: #969696;
+          display: block;
+        }
+      }
+
+      .cell {
+        padding: 6px 12px;
+        display: table-cell;
+      }
+      @media screen and (max-width: 580px) {
+        .cell {
+          padding: 2px 16px;
+          display: block;
+        }
+      }
+  </style>
 </head>
 <body>
-  <h1>Create Class</h1>
-  <form id="classForm">
-    <!-- Department Section -->
-    <div>
-      <label for="department">Department:</label>
-      <select id="department" name="department" required>
-        <option value="">Select a department</option>
-        <% if(departments.length>0){ %>
-            <% for(let department of departments){ %>
-                <div></div>
-                <option value="<%= department.departmentName %>"><%= department.departmentName %></option>
-            <% } %>
-        <% } %>
-      </select>
-      <button type="button" onclick="addDepartment()">Add Department</button>
-    </div>
-    <div id="departmentFields" style="display:none;">
-      <input type="text" id="departmentName" placeholder="Department Name">
-      <input type="text" id="departmentCode" placeholder="Department Code">
-      <button type="button" onclick="saveDepartment()">Save Department</button>
-    </div>
 
-    <!-- Major Section -->
-    <div>
-      <label for="major">Major:</label>
-      <select id="major" name="major" required>
-        <option value="">Select a major</option>
-        <% if(majors.length>0){ %>
-            <% for(let major of majors){ %>
-                <div></div>
-                <option value="<%= major.majorName %>"><%= major.majorName %></option>
-            <% } %>
-        <% } %>
-      </select>
-      <button type="button" onclick="addMajor()">Add Major</button>
+  <div class="wrapper">
+    <div class="row header" style="background-color: inherit;">
+      <h1 ><br><label for="">Create Class</label><br><br></h1>
     </div>
-    <div id="majorFields" style="display:none;">
-      <input type="text" id="majorName" placeholder="Major Name">
-      <input type="text" id="majorCode" placeholder="Major Code">
-      <button type="button" onclick="saveMajor()">Save Major</button>
-    </div>
+    <form class="table" id="classForm">
+      <!-- Department Section -->
+      <div class="row header" >
+        <label for="department">Department:</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <select id="department" name="department" required>
+          <option value="">Select a department</option>
+          <% if(departments.length>0){ %>
+              <% for(let department of departments){ %>
+                  <div></div>
+                  <option value="<%= department.departmentName %>"><%= department.departmentName %></option>
+              <% } %>
+          <% } %>
+        </select>
+        <button type="button" onclick="addDepartment()">Add Department</button>
+      </div>
+      <div  class="row header" id="departmentFields" style="display:none;">
+        <input type="text" id="departmentName" placeholder="Department Name">
+        <input type="text" id="departmentCode" placeholder="Department Code">
+        <button type="button" onclick="saveDepartment()">Save Department</button>
+      </div>
+  
+      <!-- Major Section -->
+      <div class="row header" >
+        <label for="major">Major:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <select id="major" name="major" required>
+          <option value="">Select a major</option>
+          <% if(majors.length>0){ %>
+              <% for(let major of majors){ %>
+                  <div></div>
+                  <option value="<%= major.majorName %>"><%= major.majorName %></option>
+              <% } %>
+          <% } %>
+        </select>
+        <button type="button" onclick="addMajor()">Add Major</button>
+      </div class="row header" >
+      <div id="majorFields" style="display:none;">
+        <input type="text" id="majorName" placeholder="Major Name">
+        <input type="text" id="majorCode" placeholder="Major Code">
+        <button type="button" onclick="saveMajor()">Save Major</button>
+      </div>
+  
+      <!-- Class Section -->
+      <div class="row header" >
+        <label for="classroomName">Class Name:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="text" id="classroomName" name="classroomName" required>
+      </div>
+      <div class="row header" >
+        <label for="classroomCode">Class Code:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="text" id="classroomCode" name="classroomCode" required>
+      </div>
+      <button  class="row header green" style="width: 100%;"  type="submit">Create Class</button>
+    </form>
+  </div>
+  
 
-    <!-- Class Section -->
-    <div>
-      <label for="className">Class Name:</label>
-      <input type="text" id="className" name="className" required>
-    </div>
-    <div>
-      <label for="classCode">Class Code:</label>
-      <input type="text" id="classCode" name="classCode" required>
-    </div>
-    <button type="submit">Create Class</button>
-  </form>
 
+<div>
 
-  <div>
-
+    <div class="wrapper">
+      
+      <div class="tableGrid">
+        <div class="singleTable">
+          <% if(departments.length>0){ %>
+            
+              <div class="table">   
+              <div class="row header">
+                <div class="cell">
+                  All departments
+                </div>
+              </div>
+              <% for(let department of departments){ %>
+                    <div class="row">
+                      <div class="cell" data-title="Name">
+                        <%= department.departmentName %>
+                      </div>
+                    </div>
+              <% } %>
+              </div>
+              
+          <% } %>
+        </div>
+        <div class="singleTable">
+      
+          <% if(majors.length>0){ %>
+          
+              <div class="table">   
+              <div class="row header blue">
+                <div class="cell">
+                  All Majors
+                </div>
+              </div>
+              <% for(let major of majors){ %>
+                    <div class="row">
+                      <div class="cell" data-title="Name">
+                        <%=  major.majorName %>
+                      </div>
+                    </div>
+              <% } %>
+              </div>
+        
+          <% } %>
+        </div>
+      </div>
     
-    <br><br><br>
+    </div>
     <% if(faculties.length>0){ %>
         <br><br>All faculties: 
         <% for(let faculty of faculties){ %>
             <div><%= faculty.facultyName%></div>
         <% } %>
     <% } %>
-    <% if(departments.length>0){ %>
-        <br><br>All departments: 
-        <% for(let department of departments){ %>
-            <div><%= department.departmentName %></div>
-        <% } %>
-    <% } %>
+   
     <% if(degrees.length>0){ %>
         <br><br>All degrees: 
         <% for(let degree of degrees){ %>
@@ -91,18 +258,34 @@
             <div><%= course.courseName %></div>
         <% } %>
     <% } %>
-    <% if(majors.length>0){ %>
-        <br><br>All Majors: 
-        <% for(let major of majors){ %>
-            <div><%= major.majorName %></div>
-        <% } %>
-    <% } %>
+
+
+  
     <% if(classrooms.length>0){ %>
-        <br><br>All Classes: 
+      <div class="wrapper">
+        <div class="table">   
+        <div class="row header green">
+          <div class="cell">
+            All Classes
+          </div>
+          <div class="cell">
+            View Link
+          </div>
+        </div>
         <% for(let cls of classrooms){ %>
-            <div><%= cls.className %></div><a href="/academic/c/<%= cls._id%>">view classroom</a>
+              <div class="row">
+                <div class="cell" data-title="Name">
+                   <%= cls.classroomName %>
+                </div>
+                <div class="cell" data-title="Link">
+                  <a href="/academic/c/<%= cls._id%>">view classroom</a>
+                </div>
+              </div>
         <% } %>
+        </div>
+        </div>
     <% } %>
+
 
 
   </div>
@@ -153,14 +336,14 @@
 
       const department = document.getElementById('department').value;
       const major = document.getElementById('major').value;
-      const className = document.getElementById('className').value;
-      const classCode = document.getElementById('classCode').value;
+      const classroomName = document.getElementById('classroomName').value;
+      const classroomCode = document.getElementById('classroomCode').value;
 
       const data = {
         department,
         major,
-        className,
-        classCode
+        classroomName,
+        classroomCode
       };
 
       fetch('/academic', {
@@ -174,6 +357,7 @@
       .then(data => {
         alert('Class created successfully!');
         // Reset the form
+        console.log(data);
         document.getElementById('classForm').reset();
         location.reload();
       })

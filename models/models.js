@@ -7,23 +7,27 @@ const profileSchema = new mongoose.Schema({
     },
     name: {
         type: String,
-        required: true
+        default: "Name Required"
     },
     dateOfBirth: {
         type: Date
     },
-    email: String,
-    phoneNumber: String,
-    address: String,
+    email:{ type: String, default: "pending" },
+    profilePictureLink: {
+        type: String,
+        default: "/assets/profile/000.jpg"
+    }, 
+    phoneNumber:{ type: String, default: "pending" },
+    address: { type: String, default: "pending" },
     impactScore: {
         type: Number,
         default: 0
     },
-    mastersInfo: String,
-    bachelorInfo: String,
-    joinDate: String,
-    designation: String,
-    session: String,
+    mastersInfo: { type: String, default: "pending" },
+    bachelorInfo:{ type: String, default: "pending" },
+    joinDate: { type: String, default: "pending" },
+    designation: { type: String, default: "pending" },
+    session: { type: String, default: "pending" },
     rollNo: Number,
     registrationNo: Number
 })
@@ -61,8 +65,8 @@ const courseSchema = new mongoose.Schema({
 module.exports.Course = mongoose.model("Course", courseSchema);
 
 const classroomSchema = new mongoose.Schema({
-    classroomName: { type: String, required: true },
-    classroomCode: { type: String, required: true, unique: true },
+    classroomName: { type: String },
+    classroomCode: { type: String },
     classroomMajor: { type: mongoose.Schema.Types.ObjectId, ref: 'Major' },
     classroomStudents: [{ 
         type: mongoose.Schema.Types.ObjectId, 
